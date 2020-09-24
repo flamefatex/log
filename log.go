@@ -1,17 +1,12 @@
 package log
 
 import (
-	"errors"
 	"os"
-
-	"github.com/flamefatex/log/impl"
-	"github.com/flamefatex/log/impl/w_zap"
-	"go.uber.org/zap"
 )
 
-var defaultLogger impl.Logger
+var defaultLogger Logger
 
-type NewLoggerFunc func(*Config) impl.Logger
+type NewLoggerFunc func(*Config) Logger
 
 func init() {
 	// 环境变量支持
@@ -20,10 +15,10 @@ func init() {
 	mode := os.Getenv("ENV_MODE")
 	SetMode(mode)
 
-	defaultLogger = w_zap.NewZapLogger(DefaultConfig())
+	defaultLogger = NewZapLogger(DefaultConfig())
 }
 
-func NewLogger(f NewLoggerFunc, c *Config) impl.Logger {
+func NewLogger(f NewLoggerFunc, c *Config) Logger {
 	return f(c)
 }
 
@@ -31,20 +26,12 @@ func InitLogger(f NewLoggerFunc, c *Config) {
 	defaultLogger = f(c)
 }
 
-func SetLogger(logger impl.Logger) {
+func SetLogger(logger Logger) {
 	defaultLogger = logger
 }
 
-func L() impl.Logger {
+func L() Logger {
 	return defaultLogger
-}
-
-func GetZap() (*zap.Logger, error) {
-	z, ok := defaultLogger.(*w_zap.ZapLogger)
-	if !ok {
-		return nil, errors.New("logger do not init by zap")
-	}
-	return z.Zap, nil
 }
 
 // Debug package-zapLevel convenience method.

@@ -1,14 +1,12 @@
-package w_zap
+package log
 
 import (
+	"errors"
 	"os"
 
+	"github.com/flamefatex/log/rotation"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-
-	"github.com/flamefatex/log"
-	"github.com/flamefatex/log/impl"
-	"github.com/flamefatex/log/rotation"
 )
 
 type ZapLogger struct {
@@ -16,7 +14,7 @@ type ZapLogger struct {
 	*zap.SugaredLogger
 }
 
-func NewZapLogger(c *log.Config) impl.Logger {
+func NewZapLogger(c *Config) Logger {
 	// 日志等级
 	zapLevel := zap.NewAtomicLevel()
 	var lvl zapcore.Level
@@ -52,4 +50,12 @@ func NewZapLogger(c *log.Config) impl.Logger {
 	// 增加调用行数和stack trace方便定位错误
 	z := zap.New(core, zap.AddStacktrace(zap.ErrorLevel), zap.AddCaller(), zap.Fields(zap.String("service", c.ServiceName)))
 	return &ZapLogger{Zap: z, SugaredLogger: z.Sugar()}
+}
+
+func GetZap() (*zap.Logger, error) {
+	z, ok := L().(*ZapLogger)
+	if !ok {
+		return nil, errors.New("logger do not init by zap")
+	}
+	return z.Zap, nil
 }

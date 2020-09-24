@@ -1,4 +1,4 @@
-package impl
+package log
 
 // Logger defines a set of methods for writing application logs. Derived from and
 // inspired by logrus.Entry.
