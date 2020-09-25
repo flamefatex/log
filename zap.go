@@ -48,12 +48,12 @@ func NewZapLogger(c *Config) Logger {
 
 	core := zapcore.NewTee(cores...)
 	// 增加调用行数和stack trace方便定位错误
-	z := zap.New(core, zap.AddStacktrace(zap.ErrorLevel), zap.AddCaller(), zap.Fields(zap.String("service", c.ServiceName)))
+	z := zap.New(core, zap.AddStacktrace(zap.ErrorLevel), zap.AddCaller(), zap.AddCallerSkip(1), zap.Fields(zap.String("service", c.ServiceName)))
 	return &ZapLogger{Zap: z, SugaredLogger: z.Sugar()}
 }
 
 func GetZap() (*zap.Logger, error) {
-	z, ok := L().(*ZapLogger)
+	z, ok := defaultLogger.(*ZapLogger)
 	if !ok {
 		return nil, errors.New("logger do not init by zap")
 	}

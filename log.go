@@ -30,10 +30,6 @@ func SetLogger(logger Logger) {
 	defaultLogger = logger
 }
 
-func L() Logger {
-	return defaultLogger
-}
-
 // Debug package-zapLevel convenience method.
 func Debug(args ...interface{}) {
 	defaultLogger.Debug(args...)
