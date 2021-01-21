@@ -67,7 +67,7 @@ func Error(args ...interface{}) {
 	defaultLogger.Error(args...)
 }
 
-// Error package-zapLevel convenience method.
+// Errorf package-zapLevel convenience method.
 func Errorf(format string, args ...interface{}) {
 	defaultLogger.Errorf(format, args...)
 }
