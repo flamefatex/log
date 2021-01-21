@@ -1,7 +1,5 @@
 package log
 
-// Logger defines a set of methods for writing application logs. Derived from and
-// inspired by logrus.Entry.
 type Logger interface {
 	Debug(args ...interface{})
 	Debugf(format string, args ...interface{})
