@@ -1,21 +1,11 @@
 package log
 
-import (
-	"os"
-)
-
 var defaultLogger Logger
 
 type NewLoggerFunc func(*Config) Logger
 
 func init() {
-	// 环境变量支持
-	serviceName := os.Getenv("SERVICE_NAME")
-	SetServiceName(serviceName)
-	mode := os.Getenv("ENV_MODE")
-	SetMode(mode)
-
-	defaultLogger = NewZapLogger(DefaultConfig())
+	InitLogger(NewZapLogger, DefaultConfig())
 }
 
 func NewLogger(f NewLoggerFunc, c *Config) Logger {

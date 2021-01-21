@@ -2,6 +2,7 @@ package log
 
 import (
 	"errors"
+	"fmt"
 	"os"
 
 	"github.com/flamefatex/log/rotation"
@@ -19,6 +20,9 @@ func NewZapLogger(c *Config) Logger {
 	zapLevel := zap.NewAtomicLevel()
 	var lvl zapcore.Level
 	if err := lvl.Set(c.Level); err != nil {
+		err = fmt.Errorf("lvl set err:%w", err)
+		panic(err)
+	} else {
 		zapLevel.SetLevel(lvl)
 	}
 
