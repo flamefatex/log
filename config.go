@@ -9,11 +9,7 @@ const (
 	LevelError = "error"
 )
 
-var defaultConfig = &Config{
-	Level:          LevelDebug,
-	EnableConsole:  true,
-	EnableRotation: false,
-}
+var currentConfig *Config
 
 // Config 配置项
 type Config struct {
@@ -33,6 +29,10 @@ func DefaultConfig() *Config {
 	}
 }
 
-func SetServiceName(name string) {
-	defaultConfig.ServiceName = name
+func CurrentConfig() *Config {
+	return currentConfig
+}
+
+func CurrentLevel() string {
+	return currentConfig.Level
 }

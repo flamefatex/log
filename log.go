@@ -13,11 +13,8 @@ func NewLogger(f NewLoggerFunc, c *Config) Logger {
 }
 
 func InitLogger(f NewLoggerFunc, c *Config) {
+	currentConfig = c
 	defaultLogger = f(c)
-}
-
-func SetLogger(logger Logger) {
-	defaultLogger = logger
 }
 
 // Debug package-zapLevel convenience method.
